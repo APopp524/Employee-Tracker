@@ -8,7 +8,7 @@ const connectionProperties = {
     port: 3306,
     user: "root",
     password: "password",
-    database: "employees_DB"
+    database: "employee_DB"
 }
 
 // Creating Connection
@@ -18,64 +18,72 @@ const connection = mysql.createConnection(connectionProperties);
 // Establishing Connection to database
 connection.connect((err) => {
     if (err) throw err;
-
-    // Start main menu function
-
-    console.log("\n WELCOME TO EMPLOYEE TRACKER \n");
-    mainMenu();
+mainMenu();
 });
 
-// Main menu function
-function mainMenu(){
 
-    // Prompt user to choose an option
+
+function mainMenu() {
     inquirer
-    .prompt({
-      name: "action",
-      type: "list",
-      message: "MAIN MENU",
-      choices: [
-        "Add department",
-        "Add role",
-        "Add employee",
-        "View departments",
-        "View roles",
-        "View employees",
-        "Update employee roles"
-      ]
-    })
-    .then((answer) => {
+      .prompt({
+        type: "list",
+        name: "action",
+        message: "MAIN MENU",
+        choices: [
 
-        // Switch case depending on user option
+        "Add Employee",
+        "Add Department",
+        "Add Role",
+        "View all employees",
+        "View all departments",
+        "View all managers",
+        "Remove Employee",
+        "Update Employee Role",
+        "Update Employee Manager",
+        "Exit"]
+  
+      })
+      .then(function (answer) {
+        console.log(answer.action);
         switch (answer.action) {
-            case "Add a department to a employee":
-                addDepart();
-                break;
-
-            case "Add a role to a employee":
-                addRole();
-                break;
-
-            case "Add a employee":
-                addEmploy();
-                break;
-
-            case "Views all employees by department":
-                viewDepart();
-                break;
-
-            case "Views all employees by role":
-                viewRole();
-                break;
-            case "Views all employees":
-                viewEmploy();
-                break;
-            case "Updates a employee's role":
-                updateEmployRole();
-                break;
+          case "View all employees":
+            viewEmploy();
+            break;
+  
+          case "View all departments":
+            viewDepart();
+            break;
+  
+          case "View all managers":
+            viewManagers();
+            break;
+  
+          case "Add Employee":
+            addEmploy();
+            break;
+  
+          case "Add Department":
+            addDepart();
+            break;
+  
+          case "Add Role":
+            addRole();
+            break;
+  
+          case "Remove Employee":
+            deleteEmploy();
+            break;
+  
+          case "Update Employee Role":
+            employUpdate();
+            break;
+  
+          case "Exit":
+            connection.end();
+            break;
         }
-    });
-}
+      });
+  }
 
 function addEmploy() {
     inquirer
@@ -93,7 +101,7 @@ function addEmploy() {
         var query = "INSERT INTO employee (first_name, last_name) VALUES ?";
         connection.query(query, [[firstAndLastName]], function (err, res) {
   
-          runSearch();
+          mainMenu();
         });
       })
   }
