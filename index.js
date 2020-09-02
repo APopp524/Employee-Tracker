@@ -29,7 +29,6 @@ function runMenu() {
         "Add Role",
         "Remove Employee",
         "Update Employee Role",
-        "Update Employee Manager",
         "Exit"]
 
     })
@@ -110,23 +109,37 @@ function rolesView() {
 
 function employeeAdd() {
   inquirer
-    .prompt({
-      name: "employeeAdd",
-      type: "input",
-      message: ["To ADD an employee, enter Employee First Name then Last Name"]
-    })
+    .prompt([
+      {
+        type: "input",
+        message: "What's the first name of the employee?",
+        name: "eeFirstName"
+      },
+      {
+        type: "input",
+        message: "What's the last name of the employee?",
+        name: "eeLastName"
+      },
+      {
+        type: "input",
+        message: "What is the employee's role id number?",
+        name: "roleID"
+      },
+      {
+        type: "input",
+        message: "What is the manager id number?",
+        name: "managerID"
+      }
+    ])
+    .then(function(answer) {
 
-    .then(function (answer) {
-      console.log(answer)
-      var str = answer.employeeAdd;
-      var firstAndLastName = str.split(" ");
-      console.log(firstAndLastName);
-      var query = "INSERT INTO employee (first_name, last_name) VALUES ?";
-      connection.query(query, [[firstAndLastName]], function (err, res) {
-
+      
+      connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.eeFirstName, answer.eeLastName, answer.roleID, answer.managerID], function(err, res) {
+        if (err) throw err;
+        console.table(res);
         runMenu();
       });
-    })
+    });
 }
 
 function departmentAdd() {
