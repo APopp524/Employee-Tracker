@@ -15,12 +15,13 @@ connection.connect(function (err) {
   runMenu();
 });
 
+// starts application with the menu
 function runMenu() {
   inquirer
     .prompt({
       type: "list",
       name: "action",
-      message: "What would you like to do?",
+      message: "WELCOME TO THE EMPLOYEE TRACKER...",
       choices: ["View all employees",
         "View all departments",
         "View all roles",
@@ -75,36 +76,33 @@ function runMenu() {
 }
 
 function employeeView() {
-  // select from the db
   let query = "SELECT * FROM employee";
   connection.query(query, function(err, res) {
     if (err) throw err;
     console.table(res);
+    // result is then shown in the console.table
     runMenu();
   });
-  // show the result to the user (console.table)
 }
 
 function departmentView() {
-  // select from the db
   let query = "SELECT * FROM department";
   connection.query(query, function(err, res) {
     if (err) throw err;
     console.table(res);
+    // result is then shown in the console.table
     runMenu();
   });
-  // show the result to the user (console.table)
 }
 
 function rolesView() {
-  // select from the db
   let query = "SELECT * FROM role";
   connection.query(query, function(err, res) {
     if (err) throw err;
     console.table(res);
+    // result is then shown in the console.table
     runMenu();
   });
-  // show the result to the user (console.table)
 }
 
 function employeeAdd() {
@@ -113,12 +111,12 @@ function employeeAdd() {
       {
         type: "input",
         message: "What's the first name of the employee?",
-        name: "eeFirstName"
+        name: "FirstName"
       },
       {
         type: "input",
         message: "What's the last name of the employee?",
-        name: "eeLastName"
+        name: "LastName"
       },
       {
         type: "input",
@@ -143,17 +141,13 @@ function employeeAdd() {
 }
 
 function departmentAdd() {
-
-
-  inquirer.prompt({
-    
+  inquirer
+    .prompt({
       type: "input",
       message: "What is the name of the department?",
       name: "deptName"
 
   }).then(function(answer){
-
-
 
       connection.query("INSERT INTO department (name) VALUES (?)", [answer.deptName] , function(err, res) {
           if (err) throw err;
@@ -163,15 +157,15 @@ function departmentAdd() {
   })
 }
 
-// title, salary, department id
 function roleAdd() {
   inquirer
     .prompt({
       name: "title",
       type: "input",
       message: ["Enter new role name"]
-    })
-    .then(function (answer) {
+
+    }).then(function (answer) {
+
       var title = answer.title;
 
       inquirer
@@ -179,8 +173,9 @@ function roleAdd() {
           name: "salary",
           type: "input",
           message: ["Enter new role salary"]
-        })
-        .then(function (answer) {
+
+        }).then(function (answer) {
+
           var salary = answer.salary;
 
           inquirer
@@ -188,8 +183,9 @@ function roleAdd() {
               name: "department_id",
               type: "input",
               message: ["Enter new role department id"]
-            })
-            .then(function (answer) {
+
+            }).then(function (answer) {
+
               var department_id = answer.department_id;
 
               console.log(`title: ${title} salary: ${salary} department id: ${department_id}`);
@@ -215,8 +211,8 @@ function employeeRemove() {
       type: "input",
       message: "To REMOVE an employee, enter the Employee id",
 
-    })
-    .then(function (answer) {
+    }).then(function (answer) {
+
       console.log(answer);
       var query = "DELETE FROM employee WHERE ?";
       var newId = Number(answer.employeeRemove);
@@ -235,8 +231,9 @@ function employeeUpdate() {
       name: "id",
       type: "input",
       message: "Enter employee id",
-    })
-    .then(function (answer) {
+      
+    }).then(function (answer) {
+
       var id = answer.id;
 
       inquirer
