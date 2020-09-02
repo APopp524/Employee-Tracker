@@ -1,3 +1,4 @@
+// Install all these dependencies
 var inquirer = require("inquirer");
 var consoleTable = require("console.table");
 var mysql = require("mysql");
@@ -75,6 +76,7 @@ function runMenu() {
     });
 }
 
+//opens VIEW ALL EMPLOYEES
 function employeeView() {
   let query = "SELECT * FROM employee";
   connection.query(query, function(err, res) {
@@ -85,6 +87,7 @@ function employeeView() {
   });
 }
 
+//opens VIEW ALL departments
 function departmentView() {
   let query = "SELECT * FROM department";
   connection.query(query, function(err, res) {
@@ -95,6 +98,7 @@ function departmentView() {
   });
 }
 
+//opens VIEW ALL roles
 function rolesView() {
   let query = "SELECT * FROM role";
   connection.query(query, function(err, res) {
@@ -105,6 +109,7 @@ function rolesView() {
   });
 }
 
+//opens  ADD EMPLOYEE
 function employeeAdd() {
   inquirer
     .prompt([
@@ -140,6 +145,7 @@ function employeeAdd() {
     });
 }
 
+//opens  ADD DEPARTMENT
 function departmentAdd() {
   inquirer
     .prompt({
@@ -157,6 +163,7 @@ function departmentAdd() {
   })
 }
 
+//opens  ADD ROLE
 function roleAdd() {
   inquirer
     .prompt({
@@ -204,6 +211,7 @@ function roleAdd() {
 
 }
 
+// deletes an employee
 function employeeRemove() {
   inquirer
     .prompt({
@@ -224,6 +232,7 @@ function employeeRemove() {
     });
 }
 
+//updates a current employee
 function employeeUpdate() {
   console.log('updating emp');
   inquirer
@@ -231,7 +240,7 @@ function employeeUpdate() {
       name: "id",
       type: "input",
       message: "Enter employee id",
-      
+
     }).then(function (answer) {
 
       var id = answer.id;
